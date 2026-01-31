@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formset_factory
 
-from labels.models import Label
+from labels.models import Label, LabelSize, LabelType
 
 
 class LabelBaseForm(forms.ModelForm):
@@ -28,3 +28,16 @@ class DeleteLabelForm(LabelBaseForm):
         super().__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].disabled = True
+
+
+class LabelSizeForm(forms.ModelForm):
+    class Meta:
+        model = LabelSize
+        fields = '__all__'
+
+
+class LabelTypeForm(forms.ModelForm):
+    class Meta:
+        model = LabelType
+        fields = '__all__'
+        widgets = {'sizes': forms.CheckboxSelectMultiple}

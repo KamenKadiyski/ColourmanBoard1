@@ -1,0 +1,54 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title }} {% endblock %}
+{% block content %}
+<style>
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Available label types:</h1>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for type in last_types %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="mb-3">
+                            <h3 class="card-title mb-1 text-break">{{ type.name }}</h3>
+                            {% if type.is_preprinted %}
+                                <span class="badge bg-info text-dark text-wrap text-break w-100">Preprinted label</span>
+                            {% else %}
+                                <span class="badge bg-info text-dark text-wrap text-break w-100">Generic type label</span>
+                            {% endif %}
+
+                        </div>
+                        {% if type.sizes %}
+                            <p class="card-text text-dark text-break small lh-sm mb-3">Sizes:</p>
+                            <p class="card-text text-dark text-break small lh-sm mb-3 line-clamp-3">{{type.sizes.all|join:', '}}</p>
+                        {% else %}
+                            <p class="card-text text-dark text-break small lh-sm mb-3 line-clamp-3">No sizes yet</p>
+                        {% endif %}
+
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'labels:edit_type' type.pk %}" class="btn btn-warning flex-fill">Edit</a>
+                            <a href="{% url 'labels:delete_type' type.pk %}" class="btn btn-danger flex-fill">Delete</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <h1 class="text-muted opacity-50">No label types yet</h1>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

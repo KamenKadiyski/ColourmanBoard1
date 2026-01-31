@@ -1,0 +1,13 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title }} {% endblock %}
+{% block content %}
+<h1>Delete Label type</h1>
+    <form method="post">
+    {% csrf_token %}
+
+        <p>Are you sure you want to delete "{{type.name}}" label type?</p>
+
+        <button class="btn btn-danger" type="submit">Confirm</button>
+        <a href="{% url 'labels:manage_label_types' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

@@ -2,8 +2,8 @@ from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
-from labels.forms import SearchForm, CreateLabelForm, EditLabelForm, DeleteLabelForm
-from labels.models import Label
+from labels.forms import SearchForm, CreateLabelForm, EditLabelForm, DeleteLabelForm, LabelSizeForm, LabelTypeForm
+from labels.models import Label, LabelSize, LabelType
 
 
 # Create your views here.
@@ -84,10 +84,7 @@ def edit_label_view(request: HttpRequest, pk: int) -> HttpResponse:
                'page_title': page_title
                }
     return render(request, 'labels/edit_label.html', context)
-def manage_sizes_view(request: HttpRequest, pk: int) -> HttpResponse:
-    return redirect('labels:labels_index')
-def manage_label_types_view(request: HttpRequest, pk: int) -> HttpResponse:
-    return redirect('labels:labels_index')
+
 
 def delete_label_view(request: HttpRequest, pk: int) -> HttpResponse:
     label = get_object_or_404(Label, pk=pk)
@@ -105,3 +102,115 @@ def delete_label_view(request: HttpRequest, pk: int) -> HttpResponse:
         'nav_path': nav_path,
     }
     return render(request,'labels/delete_label.html',context)
+
+
+def sizes_index(request: HttpRequest) -> HttpResponse:
+    last_sizes = LabelSize.objects.all().order_by('-id')
+    manage_var = 'labels:add_size'
+    nav_pat = 'shared/manage_nav.html'
+    page_title = 'Label Sizes'
+    context = {
+        'manage_var': manage_var,
+        'nav_path': nav_pat,
+        'page_title': page_title,
+        'last_sizes': last_sizes,
+
+    }
+    return render(request,'labels/sizes_index.html',context)
+
+def edit_size_view(request: HttpRequest, pk: int) -> HttpResponse:
+    size_to_edit = get_object_or_404(LabelSize, pk=pk)
+    form = LabelSizeForm(request.POST or None, instance=size_to_edit)
+    nav_path = 'shared/manage_nav.html'
+    page_title = 'Edit Label Size'
+    manage_var = 'labels:add_size'
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('labels:sizes_index')
+    context = {'form': form,
+               'nav_path': nav_path,
+               'page_title': page_title
+               , 'manage_var': manage_var
+               }
+    return render(request,'labels/edit_size.html',context)
+
+
+def delete_size_view(request: HttpRequest, pk: int) -> HttpResponse:
+    size_to_delete = get_object_or_404(LabelSize, pk=pk)
+    nav_path = 'shared/manage_nav.html'
+    page_title = 'Delete Label Size'
+    manage_var = 'labels:add_size'
+    if request.method == 'POST':
+        size_to_delete.delete()
+        return redirect('labels:sizes_index')
+    context = {'size': size_to_delete,
+               'nav_path': nav_path,
+               'page_title': page_title,
+               'manage_var': manage_var}
+    return render(request,'labels/delete_size.html',context)
+
+
+def sizes_add_view(request: HttpRequest) -> HttpResponse:
+    form = LabelSizeForm(request.POST or None)
+    nav_path = 'shared/manage_nav.html'
+    page_title = 'Add Label Size'
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('labels:sizes_index')
+    context = {'form': form,
+               'nav_path': nav_path,
+               'page_title': page_title}
+
+    return render(request,'labels/add_size.html',context)
+
+
+def manage_label_types_view(request: HttpRequest,) -> HttpResponse:
+    last_types = LabelType.objects.prefetch_related('sizes').order_by('-id')
+    nav_pat = 'labels/types_nav.html'
+    page_title = 'Label types'
+    context = {
+        'nav_path': nav_pat,
+        'page_title': page_title,
+        'last_types': last_types,
+    }
+    return render(request, 'labels/type_index.html', context)
+
+def add_type_view(request: HttpRequest) -> HttpResponse:
+    nav_path = 'labels/types_nav.html'
+    page_title = 'Add Label Type'
+    form = LabelTypeForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('labels:manage_label_types')
+    context = {'form': form,
+               'nav_path': nav_path,
+               'page_title': page_title
+
+    }
+    return render(request,'labels/create_type.html', context)
+
+def edit_type_view(request: HttpRequest, pk: int) -> HttpResponse:
+    type_to_edit = get_object_or_404(LabelType, pk=pk)
+    form = LabelTypeForm(request.POST or None, instance=type_to_edit)
+    nav_path = 'labels/types_nav.html'
+    page_title = 'Edit Label Type'
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('labels:manage_label_types')
+    context = {'form': form,
+               'nav_path': nav_path,
+               'page_title': page_title}
+
+    return render(request,'labels/edit_type.html',context)
+
+def delete_type_view(request: HttpRequest, pk: int) -> HttpResponse:
+    type_to_delete = get_object_or_404(LabelType, pk=pk)
+    nav_path = 'labels/types_nav.html'
+    page_title = 'Delete Label Type'
+    if request.method == 'POST':
+        type_to_delete.delete()
+        return redirect('labels:manage_label_types')
+    context = {'type': type_to_delete,
+               'nav_path': nav_path,
+               'page_title': page_title}
+    return render(request,'labels/delete_type.html',context)

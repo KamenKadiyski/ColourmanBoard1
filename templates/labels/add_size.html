@@ -1,0 +1,14 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title }} {% endblock %}
+{% block content %}
+<h1>Add Label size</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="d-flex gap-2 mt-4">
+        <button class="btn btn-primary px-4" type="submit"><i class="bi bi-check-lg me-1"></i>Save Label</button>
+        <button class="btn btn-outline-danger px-4" type="reset"><i class="bi bi-x-circle me-1"></i>Reset</button>
+        <a href="{% url 'labels:sizes_index' %}" class="btn btn-outline-secondary ms-auto">Cancel</a>
+    </div>
+</form>
+{% endblock %}
