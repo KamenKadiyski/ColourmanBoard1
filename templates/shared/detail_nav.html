@@ -1,0 +1,7 @@
+<div class="row mt-4">
+    <div class="col-md-12 text-center">
+        <a href="{% url 'labels:edit_label' label.pk %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'labels:delete_label' label.pk %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'labels:labels_list' %}" class="btn btn-secondary">Back</a>
+    </div>
+</div>

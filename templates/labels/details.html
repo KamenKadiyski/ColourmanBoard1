@@ -1,0 +1,41 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title  }} {% endblock %}
+{% block content %}
+<div class="container">
+    <h1>{{ label.description }}</h1>
+    
+    <div class="row">
+        {% if label.image %}
+        <div class="col-md-6">
+            <img src="{{ label.image.url }}" class="img-fluid rounded shadow-sm mb-4" alt="{{ label.description }}" style="max-height: 300px; width: auto; display: block;">
+        </div>
+        {% endif %}
+
+        <div class="{% if label.image %}col-md-6{% else %}col-12{% endif %}">
+            <div class="mb-4">
+                <h3>Jobs:</h3>
+                <ul class="list-unstyled">
+                    {% for job in label.jobs.all %}
+                        <li><span class="badge bg-info text-dark">{{ job.job_code }}</span> {{ job.description }}</li>
+                    {% empty %}
+                        <li class="text-muted">No jobs associated</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="mb-4">
+                <h5>Description:</h5>
+                <p class="lead">{{ label.description }}</p>
+            </div>
+            {% if label.bar_code %}
+            <div class="mb-4">
+                <h5>Barcode:</h5>
+                <code>{{ label.bar_code }}</code>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <hr>
+
+</div>
+{% endblock %}
