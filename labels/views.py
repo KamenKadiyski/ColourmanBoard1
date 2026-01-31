@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
-from labels.forms import SearchForm, CreateLabelForm
+from labels.forms import SearchForm, CreateLabelForm, EditLabelForm, DeleteLabelForm
 from labels.models import Label
 
 
@@ -73,13 +73,35 @@ def add_label_view(request: HttpRequest) -> HttpResponse:
 
 
 def edit_label_view(request: HttpRequest, pk: int) -> HttpResponse:
-    return redirect('labels:labels_index')
-
+    form = EditLabelForm(request.POST or None, instance=get_object_or_404(Label, pk=pk))
+    page_title = 'Edit Label'
+    nav_path = 'labels/label_nav.html'
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('labels:labels_index')
+    context = {'form': form,
+               'nav_path': nav_path,
+               'page_title': page_title
+               }
+    return render(request, 'labels/edit_label.html', context)
 def manage_sizes_view(request: HttpRequest, pk: int) -> HttpResponse:
     return redirect('labels:labels_index')
 def manage_label_types_view(request: HttpRequest, pk: int) -> HttpResponse:
     return redirect('labels:labels_index')
 
 def delete_label_view(request: HttpRequest, pk: int) -> HttpResponse:
-    return redirect('labels:labels_index')
+    label = get_object_or_404(Label, pk=pk)
+    #form = DeleteLabelForm(request.POST or None)
+    page_title = 'Delete Label'
+    nav_path = 'labels/label_nav.html'
+    if request.method == 'POST':
+        label.delete()
+        return redirect('labels:labels_index')
 
+    context = {
+        'label': label,
+        #'form': form,
+        'page_title': page_title,
+        'nav_path': nav_path,
+    }
+    return render(request,'labels/delete_label.html',context)

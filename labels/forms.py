@@ -19,3 +19,12 @@ class CreateLabelForm(LabelBaseForm):
 
 class LabelFormSet(formset_factory(LabelBaseForm)):
     pass
+
+class EditLabelForm(LabelBaseForm):
+    pass
+
+class DeleteLabelForm(LabelBaseForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].disabled = True

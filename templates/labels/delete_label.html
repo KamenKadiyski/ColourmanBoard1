@@ -1,0 +1,15 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title }} {% endblock %}
+{% block content %}
+<h1>Delete Label</h1>
+    <form method="post">
+    {% csrf_token %}
+
+        <p>Are you sure you want to delete "{{ label.description }}"?</p>
+        <div class="alert alert-danger" role="alert" style="max-width: 335px;">
+            <img src="{{ label.image.url }}" alt="{{ label.description }}" class="label-image " style="max-height: 300px; width: auto; display: block;">
+        </div>
+        <button class="btn btn-danger" type="submit">Confirm</button>
+        <a href="{% url 'labels:labels_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}
