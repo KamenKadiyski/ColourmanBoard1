@@ -1,6 +1,6 @@
 from django import forms
 
-from jobs.models import Job
+from jobs.models import Job, Customer
 
 
 class JobSearchForm(forms.Form):
@@ -35,7 +35,13 @@ class CustomerSearchForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control border-start-0 ps-0',
-                'placeholder': 'Search by customer or description',
+                'placeholder': 'Search by customer',
             }
         ),
     )
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = '__all__'
+

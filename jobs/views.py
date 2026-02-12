@@ -1,7 +1,8 @@
 from django.db.models import Q, QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, FormView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, FormView, CreateView
 
 import jobs.forms
 from jobs.forms import *
@@ -54,6 +55,11 @@ class JobDetailView(DetailView):
         return super().get(request, *args, **kwargs)
 
 
+class AddJobView(CreateView):
+    model = Job
+    fields = '__all__'
+    template_name = ''
+
 
 
 class CustomerIndexView(ListView, FormView):
@@ -63,6 +69,7 @@ class CustomerIndexView(ListView, FormView):
     form_class = jobs.forms.CustomerSearchForm
     nav_path = 'jobs/jobs_nav.html'
     page_title = 'Customers list'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -80,3 +87,23 @@ class CustomerIndexView(ListView, FormView):
 
 
         return qs
+
+
+class AddCustomerView(CreateView):
+    model = Customer
+    fields = '__all__'
+    template_name = 'jobs/add_customer.html'
+    page_title = 'Add Customer'
+    nav_path = 'jobs/jobs_nav.html'
+    success_url = reverse_lazy('jobs:customer_index')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+
+            'page_title': self.page_title,
+            'nav_path': self.nav_path,
+
+        })
+        return context
