@@ -17,6 +17,33 @@ class JobSearchForm(forms.Form):
     )
 
 
+
+class AddJobForm(forms.ModelForm):
+    class Meta:
+        model = Job
+        fields = '__all__'
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        labels = cleaned_data.get('labels')
+        barcode = cleaned_data.get('barcode')
+
+        if not labels:
+            return cleaned_data
+
+
+        has_preprinted = labels.filter(label_types__is_preprinted=True).exists()
+
+        if has_preprinted:
+            pass
+        else:
+            if not barcode:
+                self.add_error('barcode', 'Please, enter barcode')
+
+        return cleaned_data
+
+
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
@@ -44,4 +71,5 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = '__all__'
+
 

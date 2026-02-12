@@ -1,3 +1,4 @@
+from django.contrib.gis.geos.prototypes.prepared import prepared_intersects
 from django.db.models import Q, QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -58,7 +59,36 @@ class JobDetailView(DetailView):
 class AddJobView(CreateView):
     model = Job
     fields = '__all__'
-    template_name = ''
+    form = AddJobForm
+    template_name = 'jobs/add_job.html'
+    page_title = 'Add Job'
+    nav_path = 'jobs/jobs_nav.html'
+    success_url = reverse_lazy('jobs:jobs_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'nav_path': self.nav_path,
+            'page_title': self.page_title,
+
+        })
+        return context
+
+    def form_valid(self, form):
+        job = form.save(commit=False)
+
+        barcode = form.cleaned_data['barcode']
+        labels = form.cleaned_data['labels']
+        preprinted = labels.filter(label_types__is_preprinted=True).first()
+
+        if preprinted:
+            job.barcode = preprinted.bar_code
+        else:
+            job.barcode = barcode
+        job.save()
+        form.save_m2m()
+        return super().form_valid(form)
+            
 
 
 
@@ -69,7 +99,7 @@ class CustomerIndexView(ListView, FormView):
     form_class = jobs.forms.CustomerSearchForm
     nav_path = 'jobs/jobs_nav.html'
     page_title = 'Customers list'
-    paginate_by = 5
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
