@@ -11,11 +11,248 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa;
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --cb-ink: #333333;
+            --cb-muted: #666666;
+            --cb-bg: #f2eff6;
+            --cb-surface: #ffffff;
+            --cb-surface-2: #f8f6fb;
+            --cb-border: #dcd0e8;
+            --cb-accent: #b18fcb; /* Kitchen - Purple */
+            --cb-accent-strong: #9a76b5;
+            --cb-info: #6fb3e1; /* Laundry - Light Blue */
+            --cb-warning: #fbb500; /* DIY - Yellow */
+            --cb-danger: #e92b30; /* Organise - Red */
+            --cb-success: #006e44; /* Garden - Dark Green */
+            --cb-storage: #9dbb1c; /* Storage - Lime Green */
+            --cb-food: #f86b24; /* Food - Orange */
+            --cb-shadow: 0 10px 25px rgba(177, 143, 203, 0.15);
+            --cb-shadow-soft: 0 5px 15px rgba(177, 143, 203, 0.1);
+            --cb-radius: 12px;
         }
+
+        body {
+            font-family: 'Manrope', 'Segoe UI', sans-serif;
+            color: var(--cb-ink);
+            background: linear-gradient(135deg, #ffffff 0%, var(--cb-bg) 100%);
+            min-height: 100vh;
+        }
+
+        body.bg-light {
+            background: linear-gradient(135deg, #ffffff 0%, var(--cb-bg) 100%);
+        }
+
+        header {
+            background: var(--cb-surface);
+            border-bottom: 3px solid var(--cb-accent);
+            box-shadow: var(--cb-shadow-soft);
+        }
+
+        main.container {
+            padding-bottom: 2rem;
+        }
+
         .logo {
-            width: 80px;
+            width: 72px;
+            border-radius: 16px;
+            box-shadow: 0 8px 18px rgba(31, 36, 38, 0.2);
+        }
+
+        .navbar.bg-dark {
+            background: linear-gradient(90deg, #b18fcb 0%, #6fb3e1 100%) !important;
+            border-radius: 10px;
+        }
+
+        .navbar {
+            padding: 0.5rem 1rem;
+            box-shadow: var(--cb-shadow-soft);
+            border: none;
+        }
+
+        .navbar .nav-link {
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            padding: 0.35rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-link:focus {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .navbar .nav-link.active {
+            background: #ffffff;
+            color: var(--cb-accent);
+        }
+
+        .navbar-nav {
+            gap: 0.35rem;
+        }
+
+        .navbar .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .card {
+            border-radius: var(--cb-radius);
+            border: 1px solid var(--cb-border);
+            box-shadow: var(--cb-shadow-soft);
+            background: var(--cb-surface);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--cb-shadow);
+        }
+
+        .card-header {
+            background: var(--cb-surface-2);
+            border-bottom: 1px solid var(--cb-border);
+            font-weight: 700;
+            color: var(--cb-accent-strong);
+        }
+
+        .card-img-top {
+            border-bottom: 1px solid var(--cb-border);
+        }
+
+        .label-image {
+            border-radius: 18px;
+            box-shadow: var(--cb-shadow);
+        }
+
+        .shadow-sm {
+            box-shadow: var(--cb-shadow) !important;
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 1.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--cb-accent);
+            border-color: var(--cb-accent);
+            color: white;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background: var(--cb-accent-strong);
+            border-color: var(--cb-accent-strong);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(177, 143, 203, 0.3);
+        }
+
+        .btn-outline-primary {
+            color: var(--cb-accent);
+            border-color: var(--cb-accent);
+        }
+
+        .btn-outline-primary:hover,
+        .btn-outline-primary:focus {
+            background: var(--cb-accent);
+            border-color: var(--cb-accent);
+            color: #ffffff;
+        }
+
+        .btn-warning {
+            background: var(--cb-warning);
+            border-color: var(--cb-warning);
+            color: #3a2c1a;
+        }
+
+        .btn-danger {
+            background: var(--cb-danger);
+            border-color: var(--cb-danger);
+        }
+
+        .btn-success {
+            background: var(--cb-success);
+            border-color: var(--cb-success);
+        }
+
+        .btn-outline-danger {
+            color: var(--cb-danger);
+            border-color: var(--cb-danger);
+        }
+
+        .btn-outline-secondary {
+            color: var(--cb-muted);
+            border-color: var(--cb-border);
+        }
+
+        .badge {
+            border-radius: 999px;
+            padding: 0.35em 0.75em;
+            font-weight: 600;
+        }
+
+        .bg-info {
+            background: var(--cb-info) !important;
+            color: #1d3430 !important;
+        }
+
+        .bg-primary {
+            background: var(--cb-accent) !important;
+        }
+
+        .bg-secondary {
+            background: #8c8f8e !important;
+        }
+
+        .input-group-text {
+            background: var(--cb-surface-2);
+            border-color: var(--cb-border);
+            color: var(--cb-muted);
+        }
+
+        .form-control,
+        .form-select {
+            border-color: var(--cb-border);
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--cb-accent);
+            box-shadow: 0 0 0 0.15rem rgba(47, 111, 98, 0.2);
+        }
+
+        .form-control::placeholder {
+            color: #9aa3a0;
+        }
+
+        .text-muted {
+            color: var(--cb-muted) !important;
+        }
+
+        .text-secondary {
+            color: #6c7674 !important;
+        }
+
+        .alert-danger {
+            background: #fde9e5;
+            border-color: #f2c2b9;
+            color: #8a3e2e;
+            border-radius: var(--cb-radius);
+        }
+
+        footer {
+            color: var(--cb-muted);
         }
     </style>
 </head>
@@ -23,7 +260,7 @@
 <header class="bg-white border-bottom py-3 mb-4">
     <div class="container d-flex flex-column align-items-center">
         <div class="d-flex align-items-center justify-content-center mb-2">
-            <img src="{% static 'images/wham2025.jpg' %}" alt="wham logo" class="logo" style="width: 80px;">
+            <img src="{% static 'images/wham2025.jpg' %}" alt="wham logo" class="logo" style="width: 72px;">
             <h1 class="h3 mb-0 ms-3">Colourman Board</h1>
         </div>
         <div id="current-datetime" class="text-muted small"></div>

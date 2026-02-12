@@ -1,0 +1,36 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title  }} {% endblock %}
+{% block content %}
+<style>
+    .label-image {
+        box-shadow: var(--cb-shadow);
+        border-radius: 18px;
+    }
+</style>
+<div class="container">
+    <h1>{{ job.job_code }}</h1>
+    <h2>{{ job.description }} for {{ job.customer }}</h2>
+
+        <div class="mb-4">
+                <h3>Labels:</h3>
+                <ul class="list-unstyled">
+                    {% for l in job.labels.all %}
+                        <li><span class="badge bg-info text-dark">{{ l.description }}</span> {{ l.labels.all }}</li>
+                        {% if l.bar_code %}
+                            <div class="mb-4">
+                                <h5>Barcode:</h5>
+                            <code>{{ l.bar_code }}</code>
+                            </div>
+                        {% endif %}
+                    {% empty %}
+                        <li class="text-muted">No labels associated</li>
+                    {% endfor %}
+                </ul>
+        </div>
+
+
+
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title }} {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Job List</h1>
+        <a href="{% url 'labels:index' %}" class="btn btn-outline-primary btn-sm">Back</a>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body p-4">
+            <form method="get" class="row g-3">
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 text-muted">
+                            <i class="bi bi-search" style="font-size: 18px;"></i>
+                        </span>
+                        {{ form.search_term }}
+                    </div>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary px-4">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        {% for job in jobs%}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <span class="badge bg-primary">Job {{ job.job_code }}</span>
+                        </div>
+                        <div class="mb-2">
+                            <p>Label types:</p>
+                            {% for label in job.labels.all %}
+                                <span class="badge bg-info text-dark">{{ label.label_types.all|join:', ' }}</span>
+                            {% empty %}
+                                <span class="badge bg-secondary text-white">No label(s)</span>
+                            {% endfor %}
+                        </div>
+                        <p class="card-text text-secondary small mb-2">{{ job.description }}</p>
+                        <a href="{% url 'jobs:jobs_detail' job.pk %}" class="btn btn-outline-primary btn-sm">More details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="text-muted">
+                    <i class="bi bi-search mb-3 opacity-25" style="font-size: 64px; display: block;"></i>
+                    <h3 class="h5">No jobs found</h3>
+                    <p>Try adjusting your search criteria</p>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

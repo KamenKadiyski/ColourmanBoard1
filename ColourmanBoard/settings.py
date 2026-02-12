@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-)03(z_qkoswa5!$h6^uo#kpf7*$%qb_f_htqopqm#g8#2j^db4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['unevidenced-interterritorial-giuliana.ngrok-free.dev','localhost', '127.0.0.1',]
 
 PROJECT_APPS = [
     'colourman',
@@ -133,3 +133,9 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://unevidenced-interterritorial-giuliana.ngrok-free.dev',
+    'http://localhost:8000'
+    '127.0.0.1:8000'
+]

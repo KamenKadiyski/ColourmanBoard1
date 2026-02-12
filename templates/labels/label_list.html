@@ -30,11 +30,11 @@
                 <div class="card h-100 shadow-sm">
                     <div class="position-relative">
                         {% if label.image %}
-                            <img src="{{ label.image.url }}" class="card-img-top" alt="{{ label.description }}" style="height: 200px; object-fit: cover;">
+                            <img src="{{ label.image.url }}" class="card-img-top" alt="{{ label.description }}" style="height: 220px; object-fit: cover;">
                         {% else %}
-                            <div class="bg-light text-muted d-flex align-items-center justify-content-center border-bottom" style="height: 200px;">
+                            <div class="bg-light text-muted d-flex align-items-center justify-content-center border-bottom" style="height: 220px;">
                                 <div class="text-center">
-                                    <i class="bi bi-image mb-2" style="font-size: 32px;"></i>
+                                    <i class="bi bi-image mb-2" style="font-size: 40px;"></i>
                                     <p class="mb-0 small">No Image</p>
                                 </div>
                             </div>
@@ -43,9 +43,9 @@
                     <div class="card-body">
                         <div class="mb-2">
                             {% for job in label.jobs.all %}
-                                <span class="badge bg-info text-dark">{{ job.job_code }}</span>
+                                <span class="badge bg-info text-dark">Job: {{ job.job_code }}</span>
                             {% empty %}
-                                <span class="badge bg-secondary text-white">No Job</span>
+                                <span class="badge bg-secondary text-white">No job(s) assigned</span>
                             {% endfor %}
                         </div>
                         <p class="card-text text-secondary small mb-0">{{ label.description }}</p>

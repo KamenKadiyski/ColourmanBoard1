@@ -64,6 +64,7 @@ def add_label_view(request: HttpRequest) -> HttpResponse:
     form = CreateLabelForm(request.POST or None, request.FILES or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
+
         return redirect('labels:labels_index')
     context = {'form': form,
                'nav_path': nav_path,
@@ -73,7 +74,7 @@ def add_label_view(request: HttpRequest) -> HttpResponse:
 
 
 def edit_label_view(request: HttpRequest, pk: int) -> HttpResponse:
-    form = EditLabelForm(request.POST or None, instance=get_object_or_404(Label, pk=pk))
+    form = EditLabelForm(request.POST or None, request.FILES or None ,instance=get_object_or_404(Label, pk=pk),)
     page_title = 'Edit Label'
     nav_path = 'labels/label_nav.html'
     if request.method == 'POST' and form.is_valid():

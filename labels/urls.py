@@ -6,7 +6,7 @@ app_name = 'labels'
 
 
 label_urls = [
-    path('', labels_index, name='labels_index'),
+    path('', labels_list, name='labels_index'),
     path('label_list/', labels_list, name='labels_list'),
     path('label_types/',manage_label_types_view,name='manage_label_types'),
     path('add_label/',add_label_view,name='add_label'),

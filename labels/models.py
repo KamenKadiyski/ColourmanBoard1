@@ -21,8 +21,8 @@ class LabelType(models.Model):
         return self.name
 
 class Label(models.Model):
-
-    bar_code = models.CharField(max_length=100)
+    #ако етикета е preprinted - задължително трябва да има баркод, ако е бланка - празно.
+    bar_code = models.CharField(max_length=15, null=True, blank=True)
     description = models.CharField(max_length=100)
     label_types = models.ManyToManyField(LabelType, related_name='labels')
     image = models.ImageField(upload_to='images/', blank=True, null=True)
