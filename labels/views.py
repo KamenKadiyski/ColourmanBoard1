@@ -50,12 +50,17 @@ def labels_list(request: HttpRequest) -> HttpResponse:
 def label_details(request: HttpRequest, pk: int) -> HttpResponse:
     label = get_object_or_404(Label.objects.prefetch_related('jobs'), pk=pk)
     nav_path = 'shared/detail_nav.html'
-
+    link1 = 'labels:edit_label'
+    link2 = 'labels:delete_label'
+    link3 = 'labels:labels_list'
 
     context = {
         'label': label,
         'page_title': f'{label.description}',
         'nav_path': nav_path,
+        'link1': link1,
+        'link2' : link2,
+        'link3' : link3,
     }
     return render(request, 'labels/details.html', context)
 def add_label_view(request: HttpRequest) -> HttpResponse:
@@ -89,7 +94,7 @@ def edit_label_view(request: HttpRequest, pk: int) -> HttpResponse:
 
 def delete_label_view(request: HttpRequest, pk: int) -> HttpResponse:
     label = get_object_or_404(Label, pk=pk)
-    #form = DeleteLabelForm(request.POST or None)
+
     page_title = 'Delete Label'
     nav_path = 'labels/label_nav.html'
     if request.method == 'POST':
@@ -98,7 +103,7 @@ def delete_label_view(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'label': label,
-        #'form': form,
+
         'page_title': page_title,
         'nav_path': nav_path,
     }

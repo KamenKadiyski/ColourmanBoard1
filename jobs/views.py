@@ -3,7 +3,7 @@ from django.db.models import Q, QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, FormView, CreateView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
 
 import jobs.forms
 from jobs.forms import *
@@ -87,6 +87,12 @@ class AddJobView(CreateView):
         job.save()
         form.save_m2m()
         return super().form_valid(form)
+
+
+class UpdateJobView(UpdateView):
+    model = Job
+    fields = '__all__'
+    template_name = 'jobs/edit_job.html'
             
 
 

@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from jobs.views import jobs_list, CustomerIndexView, JobDetailView, AddCustomerView, AddJobView
+from jobs.views import jobs_list, CustomerIndexView, JobDetailView, AddCustomerView, AddJobView, UpdateJobView
 
 app_name = 'jobs'
 jobs_urls = [
@@ -8,6 +8,7 @@ jobs_urls = [
     path('create/',AddJobView.as_view(),name='create_job'),
     path('<int:pk>/',include([
         path('',JobDetailView.as_view(),name='jobs_detail'),
+        path('edit/',UpdateJobView.as_view(),name='edit_job'),
     ])),
     ]
 
