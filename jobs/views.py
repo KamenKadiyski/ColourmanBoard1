@@ -1,4 +1,4 @@
-from django.contrib.gis.geos.prototypes.prepared import prepared_intersects
+
 from django.db.models import Q, QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -8,7 +8,6 @@ from django.views.generic import ListView, DetailView, FormView, CreateView
 import jobs.forms
 from jobs.forms import *
 from jobs.models import Customer
-from labels.forms import SearchForm
 
 
 # Create your views here.

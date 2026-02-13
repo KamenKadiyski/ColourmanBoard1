@@ -13,6 +13,6 @@ class ColourmanAdmin(admin.ModelAdmin):
 
 @admin.register(PrintingLog)
 class PrintingLogAdmin(admin.ModelAdmin):
-    list_display = ('colourman', 'code', 'label', 'label_type', 'label_size', 'amount')
+    list_display = ('colourman', 'code', 'label', 'amount')
     search_fields = ('label__description', 'colourman__clock_number', 'code__job_code')
-    list_filter = ('colourman', 'label_type', 'label_size')
+    list_filter = ('colourman', )

@@ -1,7 +1,7 @@
 {% extends 'shared/base.html' %}
 {% block title %} {{ page_title }} {% endblock %}
 {% block content %}
-<h1>Add customer</h1>
+<h1>Add a job specification</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
