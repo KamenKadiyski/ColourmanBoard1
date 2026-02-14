@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Customers List</h1>
         <a href="{% url 'jobs:create_customer' %}" class="btn btn-outline-primary btn-sm">Add customer</a>
-        <a href="{% url 'labels:index' %}" class="btn btn-outline-primary btn-sm">Back</a>
+        <a href="{% url 'jobs:jobs_list' %}" class="btn btn-outline-primary btn-sm">Back</a>
 
     </div>
 
@@ -44,7 +44,10 @@
                             {% endfor %}
                         </div>
                         <p class="card-text text-secondary small mb-2">{{ job.description }}</p>
-                        <a href="{% url 'jobs:jobs_list' %}" class="btn btn-outline-primary btn-sm">More details</a>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'jobs:edit_customer' c.pk %}" class="btn btn-warning flex-fill">Edit</a>
+                            <a href="{% url 'jobs:delete_customer' c.pk %}" class="btn btn-danger flex-fill">Delete</a>
+                        </div>
                     </div>
                 </div>
             </div>

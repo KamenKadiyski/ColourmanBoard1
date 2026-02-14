@@ -25,6 +25,7 @@ class Job(models.Model):
     # ако е бланка ще се ползва баркода от полето, може да се задава в последствие
     # ако ще се слага нов етикет - баркодовете трябва да са еднакви ако е preprinted.
     barcode = models.CharField(max_length=15, default='5038135000000')
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.job_code} - {self.description}'

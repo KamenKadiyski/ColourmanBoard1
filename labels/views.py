@@ -53,6 +53,7 @@ def label_details(request: HttpRequest, pk: int) -> HttpResponse:
     link1 = 'labels:edit_label'
     link2 = 'labels:delete_label'
     link3 = 'labels:labels_list'
+    obj_pk = label.pk
 
     context = {
         'label': label,
@@ -61,6 +62,7 @@ def label_details(request: HttpRequest, pk: int) -> HttpResponse:
         'link1': link1,
         'link2' : link2,
         'link3' : link3,
+        'obj_pk': obj_pk
     }
     return render(request, 'labels/details.html', context)
 def add_label_view(request: HttpRequest) -> HttpResponse:

@@ -3,7 +3,7 @@ from django.db.models import Q, QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
 
 import jobs.forms
 from jobs.forms import *
@@ -13,16 +13,19 @@ from jobs.models import Customer
 # Create your views here.
 
 
-def jobs_list(request: HttpRequest) -> HttpResponse:
+def jobs_list(request: HttpRequest, active:bool = True) -> HttpResponse:
     form = JobSearchForm(request.GET or None)
     page_title = 'Job search'
     nav_path = 'jobs/jobs_nav.html'
 
-    jobs = Job.objects.all().prefetch_related('customer','labels__label_types').order_by('-id')
+    job_list = (Job.objects
+                .filter(is_active=active)
+                .prefetch_related('customer','labels__label_types')
+                .order_by('-id'))
     if request.method == 'GET' and form.is_valid():
         jobs_search = form.cleaned_data['search_term']
         if jobs_search:
-            jobs = jobs.filter(
+            job_list = job_list.filter(
                 Q(job_code__icontains=jobs_search) |
                 Q(customer__name__icontains=jobs_search) |
                 Q(description__icontains=jobs_search)
@@ -30,29 +33,48 @@ def jobs_list(request: HttpRequest) -> HttpResponse:
     context = {
         'nav_path': nav_path,
         'page_title': page_title,
-        'jobs': jobs,
-        'form': form
+        'jobs': job_list,
+        'form': form,
+        'active': active,
     }
 
     return render(request,'jobs/jobs_index.html',context)
+
+
+def rested_jobs_list(request: HttpRequest) -> HttpResponse:
+    return jobs_list(request,active=False)
+
+
 class JobDetailView(DetailView):
     model = Job
     template_name = 'jobs/job_detail.html'
     nav_path = 'shared/detail_nav.html'
     page_title = 'Job details'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'nav_path': self.nav_path,
-            'page_title': self.page_title,
-        })
-        return context
+    link1 = 'jobs:edit_job'
+    link2 = 'jobs:delete_job'
+    link3 = 'jobs:jobs_list'
+
+
 
 
     def job(self, request, *args, **kwargs):
         job = self.get_object()
 
+
         return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        obj_pk = self.kwargs['pk']
+        context.update({
+            'nav_path': self.nav_path,
+            'page_title': self.page_title,
+            'link1': self.link1,
+            'link2': self.link2,
+            'link3': self.link3,
+            'obj_pk': obj_pk,
+        })
+        return context
 
 
 class AddJobView(CreateView):
@@ -93,6 +115,36 @@ class UpdateJobView(UpdateView):
     model = Job
     fields = '__all__'
     template_name = 'jobs/edit_job.html'
+    page_title = 'Edit Job Specification'
+    nav_path = 'jobs/jobs_nav.html'
+    success_url = reverse_lazy('jobs:jobs_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'nav_path': self.nav_path,
+            'page_title': self.page_title,
+
+        })
+        return context
+
+
+class DeleteJobView(DeleteView):
+    model = Job
+    success_url = reverse_lazy('jobs:jobs_list')
+    template_name = 'jobs/delete_job.html'
+    page_title = 'Edit Job Specification'
+    nav_path = 'jobs/jobs_nav.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'nav_path': self.nav_path,
+            'page_title': self.page_title,
+
+        })
+        return context
             
 
 
@@ -116,7 +168,7 @@ class CustomerIndexView(ListView, FormView):
         return context
 
     def get_queryset(self) -> QuerySet:
-        qs = super().get_queryset().prefetch_related('customers')
+        qs = super().get_queryset().prefetch_related('customers').order_by('pk')
         if 'search_term' in self.request.GET:
             qs = qs.filter(name__icontains=self.request.GET['search_term'])
 
@@ -142,3 +194,49 @@ class AddCustomerView(CreateView):
 
         })
         return context
+
+
+class EditCustomerView(UpdateView):
+    model = Customer
+    fields = '__all__'
+    template_name = 'jobs/edit_customer.html'
+    page_title = 'Add Customer'
+    nav_path = 'jobs/jobs_nav.html'
+    success_url = reverse_lazy('jobs:customer_index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+
+            'page_title': self.page_title,
+            'nav_path': self.nav_path,
+
+        })
+        return context
+
+class DeleteCustomerView(DeleteView):
+   model = Customer
+   success_url = reverse_lazy('jobs:customer_index')
+   template_name = 'jobs/delete_customer.html'
+   page_title = 'Delete Customer'
+   nav_path = 'jobs/jobs_nav.html'
+
+   def get_queryset(self) -> QuerySet:
+       customer = (super()
+                   .get_queryset()
+                   .prefetch_related('customers__labels')
+                   )
+
+       return customer
+
+
+
+   def get_context_data(self, **kwargs):
+       context = super().get_context_data(**kwargs)
+       context.update({
+
+           'page_title': self.page_title,
+           'nav_path': self.nav_path,
+
+       })
+       return context

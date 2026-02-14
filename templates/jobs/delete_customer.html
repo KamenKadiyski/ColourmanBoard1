@@ -1,0 +1,24 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title }} {% endblock %}
+{% block content %}
+<h1>Delete Job specification</h1>
+    <form method="post">
+    {% csrf_token %}
+
+        <h3>Are you sure you want to delete {{ customer.name }} as a customer?</h3>
+    <div class="container-fluid">
+        {% for j in customer.customers.all %}
+            <h4>{{ j.job_code }} – {{ j.description }}</h4>
+            {% for l in j.labels.all %}
+                 <div class="img-thumbnail"  style="display: flex; gap: 20px; flex-wrap: wrap; max-width: 210px; ">
+                <img src="{{ l.image.url }}" alt="{{ l.description }}" class="label-image " style="max-height: 200px;">
+            </div>
+            {% endfor %}
+
+
+        {% endfor %}
+    </div>
+        <button class="btn btn-danger" type="submit">Confirm</button>
+        <a href="{% url 'jobs:jobs_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}
