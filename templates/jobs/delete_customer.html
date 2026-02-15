@@ -1,7 +1,7 @@
 {% extends 'shared/base.html' %}
 {% block title %} {{ page_title }} {% endblock %}
 {% block content %}
-<h1>Delete Job specification</h1>
+<h1>Delete customer</h1>
     <form method="post">
     {% csrf_token %}
 
@@ -19,6 +19,6 @@
         {% endfor %}
     </div>
         <button class="btn btn-danger" type="submit">Confirm</button>
-        <a href="{% url 'jobs:jobs_list' %}" class="btn btn-secondary">Cancel</a>
+        <a href="{% url 'jobs:customer_index' %}" class="btn btn-secondary">Cancel</a>
     </form>
 {% endblock %}

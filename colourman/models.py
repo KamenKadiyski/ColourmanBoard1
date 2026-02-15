@@ -10,6 +10,7 @@ class Colourman(models.Model):
     clock_number = models.CharField(max_length=10, unique=True)
     name = models.CharField(max_length=100)
     shift = models.CharField(max_length=10)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.clock_number} - {self.name}"
