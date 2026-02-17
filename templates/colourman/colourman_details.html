@@ -1,0 +1,51 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title  }} {% endblock %}
+{% block content %}
+<style>
+    .label-image {
+        box-shadow: var(--cb-shadow);
+        border-radius: 18px;
+    }
+</style>
+<div class="container">
+
+
+        {%  if fails_count > 0 %}
+            <div>
+            <div class="alert alert-info mt-3">
+                <strong style="font-size: 1.5rem;">{{ colourman.name }}</strong><br>
+                {% if points_sum > 0%}
+                    Has <span class="badge bg-danger">{{ fails_count }}</span> unacceptable
+                    and <span class="badge bg-danger">{{ points_sum }}</span> points
+
+                {% endif %}
+
+            </div>
+
+            {% for f in fails_list %}
+                <div class="card" style="width: fit-content">
+                    <div class="card-body">
+                        <h5 class="card-title"> {{ f.created_at }}</h5>
+                        <span class="badge bg-danger text-light text-f2">{{ f.reason }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            <strong class="text-success"  style=" font-size: 1.5rem; ">{{ colourman.name }}</strong><br>
+            <p class="text-success" style="font-size: 1.5rem">Has no fails</p>
+        {% endif %}
+
+    <div class="row mt-4">
+    <div class="col-md-12 text-center">
+        <a href="{% url 'colourman:unacceptable' colourman.pk %}" class="btn btn-warning">Add unacceptable</a>
+        <a href="{% url 'colourman:index' %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'colourman:index' %}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+
+
+
+
+</div>
+{% endblock %}

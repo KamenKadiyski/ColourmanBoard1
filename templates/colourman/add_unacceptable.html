@@ -1,0 +1,31 @@
+{% extends 'shared/base.html' %}
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h1 class="h4 mb-0"><i class="bi bi-plus-circle me-2 text-primary"></i>Add unacceptable for {{ colourman.name }}</h1>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        {{ add_form}}
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button class="btn btn-primary px-4" type="submit">
+                                <i class="bi bi-check-lg me-1"></i>Save Unnaceptable
+                            </button>
+                            <button class="btn btn-outline-danger px-4" type="reset">
+                                <i class="bi bi-x-circle me-1"></i>Reset
+                            </button>
+                            <a href="{% url 'colourman:index' %}" class="btn btn-outline-secondary ms-auto">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
