@@ -1,5 +1,8 @@
 from django.db import models
 
+from labels.models import Label
+
+
 # Create your models here.
 
 #Модел за клиенти. За текущото приложени, не е необходимо да се събират повече данни
@@ -26,6 +29,13 @@ class Job(models.Model):
     # ако ще се слага нов етикет - баркодовете трябва да са еднакви ако е preprinted.
     barcode = models.CharField(max_length=15, default='5038135000000')
     is_active = models.BooleanField(default=True)
+
+
+    @property
+    def linked_labels(self):
+        qs = Label.objects.prefetch_related('jobs')
+        return qs
+
 
     def __str__(self):
         return f'{self.job_code} - {self.description}'

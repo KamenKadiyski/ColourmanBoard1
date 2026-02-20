@@ -1,0 +1,27 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title }} {% endblock %}
+{% block content %}
+
+    <form method="post">
+    {% csrf_token %}
+    <strong style="font-size: 1.5rem;">Do you want to delete {{ colourman.name }}'s profile?</strong><br>
+    {% if fails_count > 0 %}
+
+        <div class="alert alert-info mt-3">
+
+                {% if points > 0%}
+                    The employee has <span class="badge bg-danger">{{ fails_count }}</span> unacceptable
+                    and <span class="badge bg-danger">{{ points }}</span> points
+                {% else %}
+                    The employee has  <span class="badge bg-danger">{{ fails_count }}</span> unacceptable
+                    and <span class="badge bg-danger">0</span> points
+                {% endif %}
+
+            </div>
+    {% else %}
+        <p class="text-success" style="font-size: 1.5rem">The employee has not unacceptable</p>
+    {% endif %}
+        <button class="btn btn-danger" type="submit">Confirm</button>
+        <a href="{% url 'colourman:index' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

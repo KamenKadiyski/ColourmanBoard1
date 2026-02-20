@@ -30,7 +30,16 @@
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
                         <div class="mb-2">
-                            <span class="badge bg-primary">{{ c.clock_number }} -   {{ c.name }}</span>
+                            <span class="badge bg-primary">{{ c.clock_number }} -   {{ c.name }}
+                           working shift: {{ c.shift }}
+                            </span>
+                            <span class="badge bg-secondary">
+                                {% if c.is_active %}
+                                    Status: Currently active
+                                {% else %}
+                                    Status: Not currently active
+                                {% endif %}
+                            </span>
                         </div>
                         <div class="mb-2">
 
@@ -45,8 +54,8 @@
                         </div>
 
                         <div class="d-flex gap-2">
-                            <a href="{% url 'jobs:edit_customer' c.pk %}" class="btn btn-warning flex-fill">Edit</a>
-                            <a href="{% url 'colourman:detail' c.pk %}" class="btn btn-danger flex-fill">Details</a>
+                            <a href="{% url 'colourman:edit_colourman' c.pk %}" class="btn btn-warning flex-fill">Edit</a>
+                            <a href="{% url 'colourman:detail' cm_pk=c.pk %}" class="btn btn-danger flex-fill">Details</a>
                         </div>
                     </div>
                 </div>

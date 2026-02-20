@@ -13,7 +13,7 @@
         {%  if fails_count > 0 %}
             <div>
             <div class="alert alert-info mt-3">
-                <strong style="font-size: 1.5rem;">{{ colourman.name }}</strong><br>
+                <strong style="font-size: 1.5rem;">{{ colourman.name }} Shift:{{ colourman.shift }}</strong><br>
                 {% if points_sum > 0%}
                     Has <span class="badge bg-danger">{{ fails_count }}</span> unacceptable
                     and <span class="badge bg-danger">{{ points_sum }}</span> points
@@ -22,14 +22,18 @@
 
             </div>
 
+            <div class="d-flex flex-wrap gap-3">
             {% for f in fails_list %}
-                <div class="card" style="width: fit-content">
-                    <div class="card-body">
-                        <h5 class="card-title"> {{ f.created_at }}</h5>
-                        <span class="badge bg-danger text-light text-f2">{{ f.reason }}</span>
+                <a href="{% url 'colourman:fail_details' cm_pk=colourman.pk f_pk=f.pk %}" class="text-decoration-none text-reset">
+                    <div class="card" style="width: fit-content;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ f.created_at }}</h5>
+                            <span class="badge bg-danger text-light text-f2">{{ f.reason|truncatechars:20 }}</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             {% endfor %}
+            </div>
             </div>
         {% else %}
             <strong class="text-success"  style=" font-size: 1.5rem; ">{{ colourman.name }}</strong><br>
@@ -39,7 +43,7 @@
     <div class="row mt-4">
     <div class="col-md-12 text-center">
         <a href="{% url 'colourman:unacceptable' colourman.pk %}" class="btn btn-warning">Add unacceptable</a>
-        <a href="{% url 'colourman:index' %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'colourman:delete_colourman' colourman.pk %}" class="btn btn-danger">Delete</a>
         <a href="{% url 'colourman:index' %}" class="btn btn-secondary">Back</a>
     </div>
 </div>

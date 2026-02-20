@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import sys
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -29,8 +29,12 @@ SECRET_KEY = 'django-insecure-)03(z_qkoswa5!$h6^uo#kpf7*$%qb_f_htqopqm#g8#2j^db4
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+ALLOWED_HOSTS = ['*']
+RUNSERVER_INSECURE = "--insecure" in sys.argv
+if RUNSERVER_INSECURE:
+    DEBUG_PROPAGATE_EXCEPTIONS = False
 
-ALLOWED_HOSTS = ['unevidenced-interterritorial-giuliana.ngrok-free.dev','localhost', '127.0.0.1',]
+
 
 PROJECT_APPS = [
     'colourman',
@@ -147,3 +151,8 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000'
     '127.0.0.1:8000'
 ]
+
+
+RUNSERVER_INSECURE = "--insecure" in sys.argv
+if RUNSERVER_INSECURE:
+    DEBUG_PROPAGATE_EXCEPTIONS = False

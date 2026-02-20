@@ -11,9 +11,10 @@ from colourman.models import Colourman
 
 def find_colourmens_and_count_fails(name: str | None = None,
                                     clock_num: int | None = None):
-    colourmens = (Colourman.
-                  objects.all()
-                  .prefetch_related('unacceptable').order_by('-clock_number')
+    colourmens = (Colourman
+                  .objects.all()
+                  .order_by('clock_number')
+                  .prefetch_related('unacceptable')
                   .annotate(fails=Count('unacceptable')))
     filters = Q()
     if name is not None:

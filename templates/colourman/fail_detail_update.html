@@ -1,0 +1,33 @@
+{% extends 'shared/base.html' %}
+{% block title %} {{ page_title }} {% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="d-flex gap-2 mt-4">
+
+        {% if request.GET.edit == '1' %}
+
+            <button class="btn btn-primary px-4" type="submit">
+                <i class="bi bi-check-lg me-1"></i>Save changes
+            </button>
+
+            <button class="btn btn-outline-danger px-4" type="reset">
+                <i class="bi bi-x-circle me-1"></i>Reset
+            </button>
+             <a href="{% url 'colourman:detail' object.colourman.pk %}" class="btn btn-outline-secondary ms-auto">Back</a>
+
+        {% else %}
+            <button type="submit" name="edit" value="1" class="btn btn-warning">
+                Edit
+            </button>
+            <a href="{% url 'colourman:detail' object.colourman.pk %}" class="btn btn-outline-secondary ms-auto">Back</a>
+
+        {% endif %}
+
+
+    </div>
+</form>
+{% endblock %}

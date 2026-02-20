@@ -6,7 +6,7 @@ from django.db.models import Sum
 # Create your models here.
 #Модел за служителя отговорен за печата или слагане на етикети за поръчките
 class Colourman(models.Model):
-    clock_number = models.CharField(max_length=10, unique=True)
+    clock_number = models.IntegerField(unique=True)
     name = models.CharField(max_length=100)
     shift = models.CharField(max_length=10)
     is_active = models.BooleanField(default=True)
@@ -34,12 +34,17 @@ class Colourman(models.Model):
 
     @property
     def number_of_labels(self):
+
         labels_count = self.print_usage_log_colourman.count()
         return labels_count
 
 
     def __str__(self):
         return f"{self.clock_number} - {self.name}"
+
+
+
+
 #Модел за описване на ползване на етикетите или бланките за етикети.
 class PrintingLog(models.Model):
     colourman = models.ForeignKey(Colourman, on_delete=models.CASCADE,related_name='print_usage_log_colourman')
@@ -52,6 +57,9 @@ class PrintingLog(models.Model):
 
     def __str__(self):
         return f"{self.colourman} - {self.code} - {self.label} - {self.amount}"
+
+
+
 
 #Описва всички установени проблеми с качеството на етикетите
 class Unacceptable(models.Model):

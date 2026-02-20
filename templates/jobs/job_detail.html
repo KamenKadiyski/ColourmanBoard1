@@ -1,36 +1,43 @@
 {% extends 'shared/base.html' %}
-{% block title %} {{ page_title  }} {% endblock %}
-{% block content %}
-<style>
-    .label-image {
-        box-shadow: var(--cb-shadow);
-        border-radius: 18px;
-    }
-</style>
-<div class="container">
-    <h1>{{ job.job_code }}</h1>
-    <h2>{{ job.description }} for {{ job.customer }}</h2>
+{% block title %} {{ page_title }} {% endblock %}
 
-        <div class="mb-4">
-                <h3>Labels:</h3>
-                <ul class="list-unstyled">
-                    {% for l in job.labels.all %}
-                        <li><span class="badge bg-info text-dark">{{ l.description }}</span> {{ l.labels.all }}</li>
+{% block content %}
+<div class="container mt-4">
+    <div class="border-bottom mb-4 pb-2">
+        <h1 class="display-5 fw-bold">{{ job.job_code }}</h1>
+        <p class="lead text-muted">{{ job.description }} for <strong>{{ job.customer }}</strong></p>
+    </div>
+
+    <h3 class="mb-3">Labels</h3>
+
+    <!-- Използваме row-cols за автоматично подреждане на картите -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for l in job.labels.all %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    {% if l.image %}
+                        <img src="{{ l.image.url }}" class="card-img-top" alt="{{ l.description }}" style="height: 250px; object-fit: cover;">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge bg-info text-dark">{{ l.description }}</span>
+                        </div>
+
                         {% if l.bar_code %}
-                            <div class="mb-4">
-                                <h5>Barcode:</h5>
-                            <code>{{ l.bar_code }}</code>
+                            <div class="mt-3">
+                                <small class="text-muted d-block small">Barcode:</small>
+                                <code class="text-primary">{{ l.bar_code }}</code>
                             </div>
                         {% endif %}
-                    {% empty %}
-                        <li class="text-muted">No labels associated</li>
-                    {% endfor %}
-                </ul>
-        </div>
-
-
-
-
-
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-muted italic">No labels are associated with this job.</p>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
