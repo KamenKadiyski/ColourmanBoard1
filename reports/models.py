@@ -22,7 +22,8 @@ class ReportParameter(models.Model):
         ('date', 'Date'),
         ('int', 'Integer'),
         ('str', 'String'),
-        ('choice', 'Choice')
+        ('choice', 'Choice'),
+        ('bool', 'Boolean'),
     )
     report = models.ForeignKey(ReportConfiguration, on_delete=models.CASCADE,related_name='parameters')
     name = models.CharField(max_length=255, help_text='Parameter name into function')

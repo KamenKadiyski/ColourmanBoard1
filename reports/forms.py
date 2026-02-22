@@ -16,3 +16,6 @@ class DynamicReportForm(forms.Form):
                 self.fields[parameter.name] = forms.IntegerField(**field_kwargs)
             else:
                 self.fields[parameter.name] = forms.CharField(**field_kwargs)
+
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
