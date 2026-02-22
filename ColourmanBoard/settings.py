@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)03(z_qkoswa5!$h6^uo#kpf7*$%qb_f_htqopqm#g8#2j^db4'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-exam-key-123')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -148,8 +148,8 @@ MEDIA_ROOT = BASE_DIR
 
 CSRF_TRUSTED_ORIGINS = [
     'https://unevidenced-interterritorial-giuliana.ngrok-free.dev',
-    'http://localhost:8000'
-    '127.0.0.1:8000'
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
 ]
 
 
