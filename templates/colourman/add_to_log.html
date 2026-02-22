@@ -25,12 +25,13 @@
                         <label for="{{ form.code.id_for_label }}" class="form-label fw-bold">Job Code</label>
                         {{ form.code }}
                          {% if form.code.errors %}
-                            <div class="text-danger small">{{ form.code.errors }}</div>
+                            <div class="text-danger small">{{ form.code.errors.0 }}</div>
                         {% endif %}
                         <div class="form-text">Press <strong>Enter</strong> to load job labels</div>
                     </div>
 
-                    {% if form.data.code or form.initial.code %}
+                    {# ТУК Е ПРОМЯНАТА: Показваме долната част само ако Job е намерен в базата #}
+                    {% if form.job_instance %}
                         <div class="p-3 rounded bg-light mb-3 border">
                             <div class="mb-3">
                                 <label for="{{ form.label.id_for_label }}" class="form-label fw-bold">Label</label>
@@ -47,16 +48,23 @@
                                 {% endif %}
                             </div>
                         </div>
-                    {% endif %}
 
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-                        <a href="{% url 'colourman:index' %}" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left me-1"></i> Back
-                        </a>
-                        <button type="submit" name='submit' class="btn btn-primary">
-                            <i class="bi bi-plus-circle me-1"></i> Add to Log
-                        </button>
-                    </div>
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a href="{% url 'colourman:index' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i> Back
+                            </a>
+                            <button type="submit" name='submit' class="btn btn-primary">
+                                <i class="bi bi-plus-circle me-1"></i> Add to Log
+                            </button>
+                        </div>
+                    {% else %}
+                        {# Ако няма валиден код, показваме само бутона Back #}
+                        <div class="mt-4">
+                            <a href="{% url 'colourman:index' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i> Back
+                            </a>
+                        </div>
+                    {% endif %}
                 </form>
             </div>
         </div>

@@ -59,34 +59,40 @@ class AddUnacceptableColourmanForm(forms.ModelForm):
 
 
 class AddPrintOrUsageOfLabelForm(forms.ModelForm):
-    code = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter job code'}),
-                           label="Job Code")
+    code = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Enter job code'}),
+        label="Job Code"
+    )
+
     class Meta:
         model = PrintingLog
         fields = '__all__'
         exclude = ['usage_date']
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+
         code_id = self.data.get('code') or self.initial.get('code')
-        the_job = Job.objects.filter(job_code=code_id).first()
+        self.job_instance = Job.objects.filter(job_code=code_id).first() if code_id else None
 
-        if code_id:
-            self.fields['label'].queryset = the_job.labels.all()
-            self.fields['label'].widget.attrs.pop('disabled', None)
+        if self.job_instance:
+            self.fields['label'].queryset = self.job_instance.labels.all()
 
+
+            if 'disabled' in self.fields['label'].widget.attrs:
+                del self.fields['label'].widget.attrs['disabled']
+            self.fields['label'].disabled = False
         else:
+
             self.fields['label'].queryset = Label.objects.none()
             self.fields['label'].disabled = True
-            setattr(self.fields['label'], 'empty_label', 'Please enter job code first')
+            self.fields['label'].empty_label = 'Please enter a valid job code'
 
     def clean_code(self):
-
         code_text = self.cleaned_data.get('code')
         try:
-
-            job = Job.objects.get(job_code=code_text)
-            return job
-        except Job.DoesNotExist:
+            return Job.objects.get(job_code=code_text)
+        except (Job.DoesNotExist, ValueError):
             raise forms.ValidationError(f"Job with code '{code_text}' does not exist.")
+

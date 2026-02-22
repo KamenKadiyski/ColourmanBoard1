@@ -216,7 +216,7 @@ class EditColourmanView(UpdateView):
 
 def add_to_printing_log_view(request: HttpRequest) -> HttpResponse:
     form = AddPrintOrUsageOfLabelForm(request.POST or None)
-    page_title = 'Add to printing log'
+    page_title = 'Add to label usage log'
     nav_path = 'colourman/colours_nav.html'
     if request.method == 'POST':
         if 'submit' in request.POST:

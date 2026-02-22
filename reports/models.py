@@ -1,6 +1,9 @@
 from django.db import models
-from django.apps import apps
 
+
+# Този модел описва Meta данните за съответният report.
+# При добавянето на нов запис е важно да се въвежда правилното име на функция
+# в полето method_name.
 
 class ReportConfiguration(models.Model):
     name = models.CharField(max_length=255,verbose_name='Report name')
@@ -16,7 +19,8 @@ class ReportConfiguration(models.Model):
     def __str__(self):
         return self.name
 
-
+# Този модел дефинира параметрите на самите доклади, които после участват във филтрирането
+# на данните. name задължително трябва да съответства на името на параметъра, който се подава функцията.
 class ReportParameter(models.Model):
     PARAMETER_TYPES = (
         ('date', 'Date'),
@@ -32,7 +36,7 @@ class ReportParameter(models.Model):
                                       help_text='Parameter type')
     source_model = models.CharField(max_length=50,
                                     blank=True, null=True,
-                                    help_text='app_label.ModelName for choice parameters')
+                                    help_text='app_label.ModelName for choice parameters(optional) ')
     is_required = models.BooleanField(default=True)
     def __str__(self):
         return f"{self.label} for {self.report.name}"
