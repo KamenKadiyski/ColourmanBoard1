@@ -14,12 +14,12 @@
 
 
 ## 📁 Структура на проекта
+
+```text
 ColourmanBoard/
-│
 ├── .github/
 ├── .qodo/
 ├── .venv/
-│
 ├── colourman/
 ├── ColourmanBoard/
 ├── images/
@@ -27,20 +27,19 @@ ColourmanBoard/
 ├── labels/
 ├── reports/
 ├── static/
-│
 ├── templates/
 │   ├── colourman/
 │   ├── jobs/
 │   ├── labels/
 │   ├── reports/
-│   └── shared/
-│       ├── 404.html
-│       └── index.html
-│
+│   ├── shared/
+│   ├── 404.html
+│   └── index.html
 ├── manage.py
 ├── README.md
-├── MANUAL.md
+├── CREDENTIALS.md
 └── requirements.txt
+```
 
 ## 🛠️ Инсталация и Настройка
 
