@@ -32,9 +32,9 @@ ColourmanBoard/
 │       ├── 404.html
 │       └── index.html
 │
-├── .env
 ├── manage.py
 ├── README.md
+├── CREDENTIALS.md
 └── requirements.txt
 
 ## 🛠️ Инсталация и Настройка
