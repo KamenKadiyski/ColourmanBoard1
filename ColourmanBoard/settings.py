@@ -150,7 +150,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://unevidenced-interterritorial-giuliana.ngrok-free.dev',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
-    'http://https://colourmanboard1-production.up.railway.app/'
+    'https://colourmanboard1-production.up.railway.app/'
 ]
 
 
