@@ -41,7 +41,7 @@ ColourmanBoard/
 
 Следвайте тези стъпки, за да стартирате проекта локално:
 
-#### **Стъпка 1: Клониране и Среда**
+
 1. Използвайте `git clone` за сваляне на кода : gh repo clone KamenKadiyski/ColourmanBoard1   
    или git clone https://github.com/KamenKadiyski/ColourmanBoard1.git
 2. Активирайте виртуална среда (`venv`), за да не замърсявате системните си пакети.
@@ -63,6 +63,6 @@ ColourmanBoard/
 ```
 
 5.За админ панела:
-   user: kamen pass: Kamen123
+   виж CREDENTIALS.md файла.
 
 
