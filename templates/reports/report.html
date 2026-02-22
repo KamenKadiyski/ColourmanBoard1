@@ -48,11 +48,11 @@
     {% endfor %}
 
     <!-- 2. Таблицата винаги ползва main_data -->
-    {% include "reports/partials/_universal_table.html" with data=result.main_data %}
+    {% include "reports/includes/universal_table.html" with data=result.main_data %}
 
 {% else %}
     <!-- Ако result е директен QuerySet (старите репорти) -->
-    {% include "reports/partials/_universal_table.html" with data=result %}
+    {% include "reports/includes/universal_table.html" with data=result %}
 {% endif %}
 
 
