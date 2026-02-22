@@ -8,6 +8,11 @@
 *   **Database:** [PostgreSQL (Neon.tech)](https://neon.tech/)
 *   **Environment:** [Python 3.14](https://www.python.org)
 *   **Infrastructure:** [GitHub](https://github.com)
+
+##  📖 ColourmanBoard1 - Подробно описание
+   Вижте подробното [Ръководство за потребителя](MANUAL.md) за повече информация.
+
+
 ## 📁 Структура на проекта
 ColourmanBoard/
 │
