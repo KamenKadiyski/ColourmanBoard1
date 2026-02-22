@@ -39,7 +39,7 @@ ColourmanBoard/
 │
 ├── manage.py
 ├── README.md
-├── CREDENTIALS.md
+├── MANUAL.md
 └── requirements.txt
 
 ## 🛠️ Инсталация и Настройка
