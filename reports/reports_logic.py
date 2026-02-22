@@ -22,9 +22,11 @@ class ReportLibrary:
         top_colourmen = logs.values('colourman__name').annotate(total_per_employee=Sum('amount')).order_by('-total_per_employee')[:3]
 
         return {
-            'logs': logs,
-            'total_sum': total_sum,
-            'top_colourmen': top_colourmen
+            'main_data': logs,  # Винаги QuerySet-а за таблицата
+            'stats': [  # Списък от статистики, които искаме да покажем
+                {'label': 'Total amount', 'value': total_sum, 'type': 'alert'},
+                {'label': 'Top 3 colourmen', 'value': top_colourmen, 'type': 'list'}
+            ]
         }
 
     @staticmethod
@@ -62,3 +64,24 @@ class ReportLibrary:
         if end_date:
             qs = qs.filter(date__lte=end_date)
         return qs
+
+
+    @staticmethod
+    def report_job_customer_label(job_code: str, start_date=None, end_date=None):
+        qs = PrintingLog.objects.filter(code__job_code=job_code).select_related('colourman', 'label', 'code')
+        if start_date:
+            qs = qs.filter(usage_date__gte=start_date)
+        if end_date:
+            qs = qs.filter(usage_date__lte=end_date)
+
+        total_amount = qs.aggregate(total=Sum('amount'))['total'] or 0
+        first_log = qs.first()
+        customer_name = first_log.code.customer.name if first_log and hasattr(first_log.code, 'customer') else "N/A"
+
+        return {
+            'main_data': qs,
+            'stats': [
+                {'label': 'Customer', 'value': customer_name, 'type': 'alert'},
+                {'label': 'Total Printed Labels', 'value': total_amount, 'type': 'alert'},
+            ]
+        }

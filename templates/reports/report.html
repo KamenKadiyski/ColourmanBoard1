@@ -27,31 +27,34 @@
             {% if result %}
 
                 <!-- 1. АКО РЕЗУЛТАТЪТ Е РЕЧНИК (като label_usage_log) -->
-                {% if result.total_sum is not None %}
-                    <div class="alert alert-info shadow-sm">
-                        <strong>Total amount:</strong> {{ result.total_sum }}
-                    </div>
+                {% if result.main_data %}
+    <!-- 1. Динамични статистики (Stats) -->
+    {% for stat in result.stats %}
+        {% if stat.type == 'alert' %}
+            <div class="alert alert-info shadow-sm">
+                <strong>{{ stat.label }}:</strong> {{ stat.value }}
+            </div>
+        {% elif stat.type == 'list' %}
+            <h4>{{ stat.label }}</h4>
+            <ul class="list-group mb-4">
+                {% for item in stat.value %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <!-- Тук ползваме .values_list или стандартен формат -->
+                        {% for key, val in item.items %} {{ val }} {% endfor %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endfor %}
 
-                    {% if result.top_colourmen %}
-                        <h4>Top 3 colourmen</h4>
-                        <ul class="list-group mb-4">
-                            {% for c in result.top_colourmen %}
-                                <li class="list-group-item d-flex justify-content-between">
-                                    {{ c.colourman__name }}
-                                    <span class="badge bg-success">{{ c.total_per_employee }}</span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+    <!-- 2. Таблицата винаги ползва main_data -->
+    {% include "reports/partials/_universal_table.html" with data=result.main_data %}
 
-                    {% with logs=result.logs %}
-                        {% include "reports/partials/_universal_table.html" with data=logs %}
-                    {% endwith %}
+{% else %}
+    <!-- Ако result е директен QuerySet (старите репорти) -->
+    {% include "reports/partials/_universal_table.html" with data=result %}
+{% endif %}
 
-                <!-- 2. АКО РЕЗУЛТАТЪТ Е ДИРЕКТЕН QUERYSET (всички останали функции) -->
-                {% else %}
-                    {% include "reports/partials/_universal_table.html" with data=result %}
-                {% endif %}
 
             {% elif request.GET %}
                 <div class="alert alert-warning">No data found for these filters.</div>
