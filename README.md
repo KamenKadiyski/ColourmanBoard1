@@ -65,7 +65,7 @@ ColourmanBoard/
    DATABASE_URL='postgresql://neondb_owner:npg_qgncKi2OVo8l@ep-super-flower-aipfcska.c-4.us-east-1.aws.neon.tech/colourmen?sslmode=require&channel_binding=require'
    SECRET_KEY = 'django-insecure-)03(z_qkoswa5!$h6^uo#kpf7*$%qb_f_htqopqm#g8#2j^db4'
   ```
-
+## Важно: Проекта работи с база данни качена на neon.tech ! Не е необходимо да се прилагат миграции!
 5.За админ панела:
    виж CREDENTIALS.md файла.
 
