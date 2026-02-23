@@ -24,6 +24,8 @@ class LabelType(models.Model):
 
     def __str__(self):
         return self.name
+
+
 #Моделът описва самият етикет
 class Label(models.Model):
     #ако етикета е preprinted - задължително трябва да има баркод, ако е бланка - празно.

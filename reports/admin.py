@@ -7,9 +7,15 @@ from reports.models import ReportConfiguration, ReportParameter
 
 @admin.register(ReportConfiguration)
 class ReportConfigurationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'slug', 'method_name')
+    search_fields = ('name', 'slug')
+    list_filter = ('name', 'slug')
+
 
 
 @admin.register(ReportParameter)
 class ReportParameterAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'label', 'report',)
+    search_fields = ('name', 'label')
+    list_filter = ('name', 'label')
+
