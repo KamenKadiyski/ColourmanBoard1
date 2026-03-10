@@ -36,6 +36,12 @@ jobs:
         run: |
           python manage.py collectstatic --noinput
 
+      - name: Debug directory structure
+        run: |
+          echo "=== PROJECT ROOT ==="
+          pwd
+          ls -R .
+
       - name: Zip artifact for deployment
         run: |
           zip -r release.zip . -x "*.git*"
