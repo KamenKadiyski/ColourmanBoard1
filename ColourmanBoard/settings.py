@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 ] + PROJECT_APPS
-
+INSTALLED_APPS += ['storages']
 MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
@@ -158,7 +158,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 
-MEDIA_URL = '/media/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
@@ -167,3 +167,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 RUNSERVER_INSECURE = "--insecure" in sys.argv
 if RUNSERVER_INSECURE:
     DEBUG_PROPAGATE_EXCEPTIONS = False
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+
+AZURE_ACCOUNT_NAME = os.getenv('AZURE_ACCOUNT_NAME')
+AZURE_ACCOUNT_KEY = os.getenv('AZURE_ACCOUNT_KEY')
+AZURE_CONTAINER = 'media'
+
+MEDIA_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{AZURE_CONTAINER}/'
