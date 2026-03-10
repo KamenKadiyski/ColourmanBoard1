@@ -28,7 +28,7 @@ urlpatterns = [
     path('colourman/',include('colourman.urls',namespace='colourman')),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG or getattr(settings, 'RUNSERVER_INSECURE', False):
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'colourman.views.custom_404'
