@@ -15,7 +15,8 @@ COPY . /app
 EXPOSE 8000
 
 # Run Django migrations and collect static files
-RUN python manage.py collectstatic --noinput
+RUN DATABASE_URL=postgres://user:pass@localhost:5432/db python manage.py collectstatic --noinput
+
 
 # Define environment variable
 ENV DJANGO_SETTINGS_MODULE=ColourmanBoard.settings
