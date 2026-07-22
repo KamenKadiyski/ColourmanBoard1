@@ -1,5 +1,5 @@
 # 1. Използване на официален лек Python имидж
-FROM python:3.11-slim
+FROM python:3.14
 
 # 2. Настройка на работната директория
 WORKDIR /app
