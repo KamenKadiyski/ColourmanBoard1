@@ -24,7 +24,7 @@ COPY . /app/
 
 # 7. Събиране на статичните файлове (WhiteNoise ще ги обслужва)
 # Подаваме фиктивен SECRET_KEY, за да премине проверката без реален .env файл при build
-RUN SECRET_KEY=build-time-key python manage.py collectstatic --noinput
+RUN SECRET_KEY=build-time-key DATABASE_URL=postgres://user:pass@localhost:5432/db python manage.py collectstatic --noinput
 
 # 8. Отваряне на порт 8000 за външен трафик
 EXPOSE 8000
