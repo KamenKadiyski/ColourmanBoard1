@@ -22,4 +22,6 @@ RUN DATABASE_URL=postgres://user:pass@localhost:5432/db python manage.py collect
 ENV DJANGO_SETTINGS_MODULE=ColourmanBoard.settings
 
 # Run the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Заменете стария CMD ред с този:
+CMD ["gunicorn", "ColourmanBoard.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+
