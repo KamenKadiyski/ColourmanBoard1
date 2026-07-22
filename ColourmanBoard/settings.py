@@ -31,13 +31,16 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-exam-key-123')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 #ALLOWED_HOSTS = [host for host in os.getenv('ALLOWED_HOSTS').split(',') if host]
+# Почистване на ALLOWED_HOSTS от интервали
 allowed = os.getenv('ALLOWED_HOSTS')
-ALLOWED_HOSTS = allowed.split(',') if allowed else []
+ALLOWED_HOSTS = [host.strip() for host in allowed.split(',')] if allowed else []
 
-#CSRF_TRUSTED_ORIGINS = [host for host in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if host]
+# Почистване на CSRF_TRUSTED_ORIGINS от интервали
 csrf = os.getenv('CSRF_TRUSTED_ORIGINS')
-CSRF_TRUSTED_ORIGINS = csrf.split(',') if csrf else []
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf.split(',')] if csrf else []
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 RUNSERVER_INSECURE = "--insecure" in sys.argv
 if RUNSERVER_INSECURE:
