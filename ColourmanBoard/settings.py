@@ -101,7 +101,7 @@ WSGI_APPLICATION = 'ColourmanBoard.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 DATABASES = {
-        'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': tmpPostgres.path.replace('/', ''),
         'USER': tmpPostgres.username,
@@ -110,8 +110,6 @@ DATABASES = {
         'PORT': 5432,
         'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
     }
-
-
 }
 
 
