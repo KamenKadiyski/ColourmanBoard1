@@ -37,6 +37,7 @@ ALLOWED_HOSTS = allowed.split(',') if allowed else []
 #CSRF_TRUSTED_ORIGINS = [host for host in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if host]
 csrf = os.getenv('CSRF_TRUSTED_ORIGINS')
 CSRF_TRUSTED_ORIGINS = csrf.split(',') if csrf else []
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 RUNSERVER_INSECURE = "--insecure" in sys.argv
 if RUNSERVER_INSECURE:
@@ -101,7 +102,7 @@ WSGI_APPLICATION = 'ColourmanBoard.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 DATABASES = {
-        'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': tmpPostgres.path.replace('/', ''),
         'USER': tmpPostgres.username,
@@ -110,8 +111,6 @@ DATABASES = {
         'PORT': 5432,
         'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
     }
-
-
 }
 
 
