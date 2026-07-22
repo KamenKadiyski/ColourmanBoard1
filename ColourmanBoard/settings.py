@@ -37,6 +37,7 @@ ALLOWED_HOSTS = allowed.split(',') if allowed else []
 #CSRF_TRUSTED_ORIGINS = [host for host in os.getenv('CSRF_TRUSTED_ORIGINS').split(',') if host]
 csrf = os.getenv('CSRF_TRUSTED_ORIGINS')
 CSRF_TRUSTED_ORIGINS = csrf.split(',') if csrf else []
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 RUNSERVER_INSECURE = "--insecure" in sys.argv
 if RUNSERVER_INSECURE:
