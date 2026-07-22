@@ -15,7 +15,6 @@ COPY . /app
 EXPOSE 8000
 
 # Run Django migrations and collect static files
-RUN python manage.py migrate
 RUN python manage.py collectstatic --noinput
 
 # Define environment variable
