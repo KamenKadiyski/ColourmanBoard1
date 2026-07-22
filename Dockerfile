@@ -30,5 +30,5 @@ RUN SECRET_KEY=build-time-key DATABASE_URL=postgres://user:pass@localhost:5432/d
 EXPOSE 8000
 
 # 9. Стартиране на приложението с Gunicorn (WSGI сървър за продукция)
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "ColourmanBoard.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--access-logfile", "-", "--error-logfile", "-", "ColourmanBoard.wsgi:application"]
 
