@@ -104,14 +104,24 @@ tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
-        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+        'NAME': (tmpPostgres.path.decode('utf-8') if isinstance(tmpPostgres.path, bytes) else tmpPostgres.path).replace('/', ''),
+        'USER': tmpPostgres.username.decode('utf-8') if isinstance(tmpPostgres.username, bytes) else tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password.decode('utf-8') if isinstance(tmpPostgres.password, bytes) else tmpPostgres.password,
+        'HOST': tmpPostgres.hostname.decode('utf-8') if isinstance(tmpPostgres.hostname, bytes) else tmpPostgres.hostname,
+        'PORT': tmpPostgres.port or 5432,
     }
 }
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': tmpPostgres.path.replace('/', ''),
+#        'USER': tmpPostgres.username,
+#        'PASSWORD': tmpPostgres.password,
+#        'HOST': tmpPostgres.hostname,
+#        'PORT': 5432,
+#        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+#    }
+#}
 
 
 # Password validation
