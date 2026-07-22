@@ -32,16 +32,30 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 #ALLOWED_HOSTS = [host for host in os.getenv('ALLOWED_HOSTS').split(',') if host]
 # Почистване на ALLOWED_HOSTS от интервали
-allowed = os.getenv('ALLOWED_HOSTS')
-ALLOWED_HOSTS = [host.strip() for host in allowed.split(',')] if allowed else []
+#allowed = os.getenv('ALLOWED_HOSTS')
+#ALLOWED_HOSTS = [host.strip() for host in allowed.split(',')] if allowed else []
 
 # Почистване на CSRF_TRUSTED_ORIGINS от интервали
-csrf = os.getenv('CSRF_TRUSTED_ORIGINS')
-CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf.split(',')] if csrf else []
+#csrf = os.getenv('CSRF_TRUSTED_ORIGINS')
+#CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf.split(',')] if csrf else []
 USE_X_FORWARDED_HOST = True
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+ALLOWED_HOSTS = [
+    'colourman.ishistack.dev', 
+    '192.168.68.50', 
+    'localhost', 
+    '127.0.0.1', 
+    'colourman-web'
+]
 
+# Направете същото и за CSRF, за да не гърми след това:
+CSRF_TRUSTED_ORIGINS = [
+    'https://ishistack.dev',
+    'http://ishistack.dev',
+    'http://192.168.68.50:8000',
+    'http://192.168.68.50'
+]
 
 RUNSERVER_INSECURE = "--insecure" in sys.argv
 if RUNSERVER_INSECURE:
